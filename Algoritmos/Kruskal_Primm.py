@@ -78,11 +78,13 @@ class GrafoKruskal:
         print("Custo: ", custoMin)
 
 def prim(graph, inicio):
+    # Define as variáveis iniciais, sendo w e v em heap = [(w, v)] o custo do caminho e v o vértice destino 
     heap = [(0, inicio)]
     visitados = set()
     caminho = []
     custoTotal = 0
 
+    # Enquanto existirem elementos no heap, verifica se o vértice já foi visitado. Caso não, adiciona ao caminho
     while heap:
         (w, v) = heapq.heappop(heap)
 
@@ -91,10 +93,12 @@ def prim(graph, inicio):
             caminho.append(v)
             custoTotal += w
 
+            # Adiciona os vizinhos do vértice atual (que ainda não foram visitados) no heap
             for vizinho, vw in graph[v]:
                 if vizinho not in visitados:
                     heapq.heappush(heap, (vw, vizinho))
 
+    # Retorna o custo total do caminho e o caminho
     return (custoTotal, caminho)
    
 
@@ -110,6 +114,7 @@ g.add_aresta(2, 4, 15)
 g.add_aresta(3, 4, 30)
 g.Kruskal()
 
+# Grafo idêntico ao exemplo do algoritmo de Kruskal, porém em forma de dicionário (desse modo, os nós podem ter nomes)
 grafo = {
     '1': [('2', 35), ('3', 40)],
     '2': [('1', 35), ('3', 25), ('4', 10)],
