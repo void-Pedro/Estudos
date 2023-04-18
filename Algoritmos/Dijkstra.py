@@ -10,6 +10,7 @@ def Dijkstra(G, v):
     distancias = [INF] * n
     # Vértice inicial tem distância 0
     distancias[v] = 0
+    predecessores = [0] * n
     
     # Cria uma fila de prioridades com o vértice inicial com distância 0
     heap = [(0, v)]
@@ -27,9 +28,10 @@ def Dijkstra(G, v):
             # Se a distância calculada for menor que a armazenada, atualiza a distância armazenada e adiciona esse vizinho ao heap
             if distanciaAtual < distancias[vizinho]:
                 distancias[vizinho] = distanciaAtual
+                predecessores[vizinho] = verticeAtual
                 heapq.heappush(heap, (distanciaAtual, vizinho))
         # Retorna o vetor com todas as distâncias atualizadas
-    return distancias
+    return distancias, predecessores
     
 grafo = [
     [(1, 2), (3, 1)],            # Vértice 0
@@ -39,5 +41,6 @@ grafo = [
     [(2, 2), (3, 1)]             # Vértice 4
 ]
 
-distancias = Dijkstra(grafo, 0)
+distancias, predecessores = Dijkstra(grafo, 0)
 print(distancias)
+print(predecessores)
