@@ -1,62 +1,37 @@
-# def iguais(l1, l2):
-#     qtdIguais = 0
-#     n = len(l1)
-    
-#     for i in range(n):
-#         for j in range(len(l2)):
-#             if l1[i] == l2[j]:
-#                 qtdIguais += 1
-#                 l2.pop(j)
-#                 break            
-#     if qtdIguais == n:
-#         return True
-#     return False
 
-def iguais(l1, l2):
-    merge_sort(l1)
-    merge_sort(l2)
-    
-    for i in range(len(l1)):
-        if l1[i] != l2[i]:
-            return False
-    return True
 
-def merge_sort(lista):
-    
-    if len(lista)>1:
-        meio = int(len(lista)/2) # Índice do meio da lista
-        E = lista[:meio] # Elementos à esquerda do meio
-        D = lista[meio:] # Elementos à direita do meio (inclusive)
-  
-        merge_sort(E) # Ordenação da parte esquerda
-        merge_sort(D) # Ordenação da parte direita
-  
-        i = 0
-        j = 0
-        k = 0
-        
-        while i < len(E) and j < len(D): 
-            if E[i] < D[j]: 
-                lista[k] = E[i] 
-                i+=1
-            else: 
-                lista[k] = D[j] 
-                j+=1
-            k+=1
-          
-        while i < len(E): 
-            lista[k] = E[i] 
-            i+=1
-            k+=1
-          
-        while j < len(D): 
-            lista[k] = D[j] 
-            j+=1
-            k+=1
 
-    
+def lagrange_interpolation(x_values, y_values, x):
+    """
+    Realiza a interpolação de grau 2 usando o polinômio de Lagrange.
 
-lista1 = [2, 6, 4, 8, 10, 3]
-lista2 = [10, 3, 2, 4, 6, 8]
-verdade = iguais(lista1, lista2)
-print(verdade)
+    Parâmetros:
+    - x_values: Lista dos valores de x conhecidos.
+    - y_values: Lista dos valores de y conhecidos correspondentes aos valores de x.
+    - x: O ponto no qual a interpolação deve ser calculada.
+
+    Retorna:
+    - O valor interpolado em x.
+    """
+
+    if len(x_values) != 4 or len(y_values) != 4:
+        raise ValueError("A interpolação de grau 2 requer exatamente 3 pontos.")
+
+    result = 0.0
+
+    for i in range(3):
+        term = y_values[i]
+        for j in range(3):
+            if i != j:
+                term = term * (x - x_values[j]) / (x_values[i] - x_values[j])
+        result += term
+
+    return result
+
+# Exemplo de uso:
+x_values = [0.7, 0.8, 0.9, 1]
+y_values = [0.6006856, 0.6576698, 0.7062415, 0.746821]
+
+x_interpolate = 0.85
+result = lagrange_interpolation(x_values, y_values, x_interpolate)
+print(f'O valor interpolado em x={x_interpolate} é {result}')
