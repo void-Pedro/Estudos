@@ -1,6 +1,3 @@
-
-
-
 def lagrange_interpolation(x_values, y_values, x):
     """
     Realiza a interpolação de grau 2 usando o polinômio de Lagrange.

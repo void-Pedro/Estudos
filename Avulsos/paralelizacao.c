@@ -1,4 +1,4 @@
-/* 
+/*
 ** PPD / DC/UFSCar - Helio
 ** Programa : multiplicacao de matrizes
 ** Objetivo: paralelizacao om OpenMP
@@ -49,23 +49,20 @@ main(int argc, char *argv[])
 	// Qual/quais loop(s) paralelizar? Vale a pena paralelizar todos?
 	// Qual é o efeito de fazer um parallel for em cada um dos fors abaixo?
 	// É necessários sincronizar alguma operação, garantindo exclusão mútua?
- 
-	for(i=0; i < lin_c; i++) 
-
+	#pragma omp parallel for private(j, k) 
+	for(i=0; i < lin_c; i++) {
 		for(j=0; j < col_c; j++) {
-            int var = 0;
-			// pode ser útil usar uma variável auxiliar para os cálculos
-			
 
-            
-            #pragma omp parallel for reduction (+:var)
+			// pode ser útil usar uma variável auxiliar para os cálculos
+			C[i*col_c+j]=0;
+ 
 			for(k=0; k < col_a; k++) 
-				//Causa false sharing se tentarmos paralelizar
-				//Não é exatamente um false sharing, porém C[i*col_c+j] vai ser constantemente atualizado no cache das threads, afetando o desempenho
-				C[i*col_c+j] = C[i*col_c+j] + A[i*col_a+k] * B[k*col_b+j]; 
+				C[i*col_c+j] = C[i*col_c+j] + A[i*col_a+k] * B[k*col_b+j];
        
        // ser usou variável auxiliar, atribui-se seu valor à C[i][j]
 		}
+	}
+	
 
 	return(0);
 }
