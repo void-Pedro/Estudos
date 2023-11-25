@@ -70,3 +70,4 @@ print("b =", Rational(L.coeff(t, 1)).limit_denominator())
 print("c =", Rational(L.coeff(t, 2)).limit_denominator())
 print("d =", Rational(L.coeff(t, 3)).limit_denominator())
 print("L3 = ", L)
+

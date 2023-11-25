@@ -49,20 +49,21 @@ main(int argc, char *argv[])
 	// Qual/quais loop(s) paralelizar? Vale a pena paralelizar todos?
 	// Qual é o efeito de fazer um parallel for em cada um dos fors abaixo?
 	// É necessários sincronizar alguma operação, garantindo exclusão mútua?
-	#pragma omp parallel for private(j, k) 
+	
 	for(i=0; i < lin_c; i++) {
-		for(j=0; j < col_c; j++) {
 
+		for(j=0; j < col_c; j++) {
 			// pode ser útil usar uma variável auxiliar para os cálculos
 			C[i*col_c+j]=0;
- 
+
+			#pragma omp parallel for reduction(+ :C[i*col_c+j])
 			for(k=0; k < col_a; k++) 
-				C[i*col_c+j] = C[i*col_c+j] + A[i*col_a+k] * B[k*col_b+j];
-       
+				C[i*col_c+j] += A[i*col_a+k] * B[k*col_b+j];
        // ser usou variável auxiliar, atribui-se seu valor à C[i][j]
 		}
 	}
-	
 
 	return(0);
 }
+
+
