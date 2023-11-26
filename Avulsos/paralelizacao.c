@@ -56,7 +56,7 @@ main(int argc, char *argv[])
 			// pode ser útil usar uma variável auxiliar para os cálculos
 			C[i*col_c+j]=0;
 
-			#pragma omp parallel for reduction(+ :C[i*col_c+j])
+			#pragma omp parallel for
 			for(k=0; k < col_a; k++) 
 				C[i*col_c+j] += A[i*col_a+k] * B[k*col_b+j];
        // ser usou variável auxiliar, atribui-se seu valor à C[i][j]
