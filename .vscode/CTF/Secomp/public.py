@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import requests
 import time
-from Crypto.Util.number import long_to_bytes
+from Cryptodome.Util.number import long_to_bytes
 import hashlib
 # from utils import listener
 
@@ -16,13 +16,14 @@ def generate_key():
 
 def encrypt(b):
     key = generate_key() + generate_key()[0:9]
+    print("key:", key)
     assert len(b) <= len(key), "Data package too large to encrypt"
     ciphertext = b''
     for i in range(len(b)):
         ciphertext += bytes([b[i] ^ key[i]]) # XOR
+    print(ciphertext)
     return ciphertext.hex()
 
-# your_input[action] = 'get_flag'
 def challenge(your_input):
     if not 'action' in your_input:
         return {"error": "You must send an action to this server"}
@@ -51,3 +52,6 @@ myobj = {"action": 'get_flag'}
 x = requests.post(url, json = myobj)
 
 print(x.text)
+
+
+#print(bytes.fromhex('1111'))
