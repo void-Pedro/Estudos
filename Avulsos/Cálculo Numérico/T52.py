@@ -13,7 +13,6 @@ def simpson_integral(a, b, n):
     k = 4
     for i in range(1, 2*n):
         xi = a + (i * h)
-        print(xi)
         integral_sum += (k * f(xi))  # Middle terms: f(x_i)
         k = (k+2)%4
         if k==0: k = 4
